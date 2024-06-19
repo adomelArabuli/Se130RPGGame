@@ -34,7 +34,7 @@ namespace Se130RPGGame.Migrations
 
                     b.HasIndex("SkillsId");
 
-                    b.ToTable("CharacterSkill");
+                    b.ToTable("CharacterSkill", (string)null);
                 });
 
             modelBuilder.Entity("RoleUser", b =>
@@ -49,7 +49,7 @@ namespace Se130RPGGame.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleUser");
+                    b.ToTable("RoleUser", (string)null);
                 });
 
             modelBuilder.Entity("Se130RPGGame.Data.Models.Character", b =>
@@ -95,7 +95,7 @@ namespace Se130RPGGame.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("characters");
+                    b.ToTable("characters", (string)null);
                 });
 
             modelBuilder.Entity("Se130RPGGame.Data.Models.Role", b =>
@@ -112,7 +112,7 @@ namespace Se130RPGGame.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("roles");
+                    b.ToTable("roles", (string)null);
                 });
 
             modelBuilder.Entity("Se130RPGGame.Data.Models.Skill", b =>
@@ -132,7 +132,7 @@ namespace Se130RPGGame.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("skills");
+                    b.ToTable("skills", (string)null);
 
                     b.HasData(
                         new
@@ -180,7 +180,7 @@ namespace Se130RPGGame.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("Se130RPGGame.Data.Models.Weapon", b =>
@@ -206,7 +206,7 @@ namespace Se130RPGGame.Migrations
                     b.HasIndex("CharacterId")
                         .IsUnique();
 
-                    b.ToTable("weapons");
+                    b.ToTable("weapons", (string)null);
                 });
 
             modelBuilder.Entity("CharacterSkill", b =>

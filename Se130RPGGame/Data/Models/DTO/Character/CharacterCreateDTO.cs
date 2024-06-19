@@ -1,4 +1,5 @@
-﻿using Se130RPGGame.Enums;
+﻿using FluentValidation;
+using Se130RPGGame.Enums;
 
 namespace Se130RPGGame.Data.Models.DTO.Character
 {
@@ -11,5 +12,13 @@ namespace Se130RPGGame.Data.Models.DTO.Character
 		public int Intelligence { get; set; } = 10;
 		public RPGClass Class { get; set; } = RPGClass.Knight;
 		public ICollection<int> SkillIds { get; set; }
+	}
+
+	public class CharacterCreateValidator : AbstractValidator<CharacterCreateDTO>
+	{
+		public CharacterCreateValidator()
+		{
+			RuleFor(x => x.Class).NotEmpty().IsInEnum();
+		}
 	}
 }
