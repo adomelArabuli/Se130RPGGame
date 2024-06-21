@@ -12,6 +12,7 @@ namespace Se130RPGGame.Data.Models.DTO.Character
 		public int Intelligence { get; set; } = 10;
 		public RPGClass Class { get; set; } = RPGClass.Knight;
 		public ICollection<int> SkillIds { get; set; }
+		public int? WeaponId { get; set; }
 	}
 
 	public class CharacterCreateValidator : AbstractValidator<CharacterCreateDTO>
