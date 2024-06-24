@@ -51,6 +51,7 @@ namespace Se130RPGGame
 			builder.Services.AddScoped<IAuthService, AuthService>();
 			builder.Services.AddScoped<ICharacterService, CharacterService>();
 			builder.Services.AddScoped<IHelperService, HelperService>();
+			builder.Services.AddScoped<IFightService, FightService>();
 
 			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
