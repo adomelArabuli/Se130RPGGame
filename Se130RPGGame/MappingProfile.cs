@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Se130RPGGame.Data.Models;
 using Se130RPGGame.Data.Models.DTO.Character;
+using Se130RPGGame.Data.Models.DTO.Score;
 using Se130RPGGame.Data.Models.DTO.Skill;
 using Se130RPGGame.Data.Models.DTO.Weapon;
 
@@ -16,6 +17,7 @@ namespace Se130RPGGame
             CreateMap<Character,CharacterUpdateDTO>().ReverseMap();
             CreateMap<Skill,SkillDTO>().ReverseMap();
             CreateMap<Weapon,WeaponDTO>().ReverseMap();
+            CreateMap<Character,HighScoreDTO>().ReverseMap();
         }
     }
 }

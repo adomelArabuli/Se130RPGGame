@@ -5,6 +5,7 @@ using Se130RPGGame.Data.Models;
 using Se130RPGGame.Data.Models.DTO.Fight;
 using Se130RPGGame.Data.Models.DTO.Fight.Skill;
 using Se130RPGGame.Data.Models.DTO.Fight.Weapon;
+using Se130RPGGame.Data.Models.DTO.Score;
 using Se130RPGGame.Interfaces;
 
 namespace Se130RPGGame.Services
@@ -161,6 +162,22 @@ namespace Se130RPGGame.Services
                 response.Success = false;
                 response.Message = ex.Message;
             }
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<HighScoreDTO>>> GetHighScore()
+        {
+            var characters = await _context.characters
+                .Where(x => x.Fights > 0)
+                .OrderByDescending(x => x.Vitories)
+                .ThenBy(x => x.Defeats)
+                .ToListAsync();
+
+            var response = new ServiceResponse<List<HighScoreDTO>>()
+            {
+                Data = characters.Select(x => _mapper.Map<HighScoreDTO>(x)).ToList()
+            };
 
             return response;
         }

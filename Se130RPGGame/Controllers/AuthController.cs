@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Se130RPGGame.Data;
+using Se130RPGGame.Data.Models.DTO.Auth;
 using Se130RPGGame.Data.Models.DTO.User;
 using Se130RPGGame.Interfaces;
 
@@ -37,5 +38,16 @@ namespace Se130RPGGame.Controllers
 			}
 			return Ok(result);
 		}
-	}
+
+        [HttpPost("RefreshAccessToken")]
+        public async Task<ActionResult<ServiceResponse<AuthResultDTO>>> RefreshAccessToken(bool staySignedIn)
+        {
+            var result = await _authService.RefreshAccessToken(staySignedIn);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+    }
 }

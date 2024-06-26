@@ -47,5 +47,14 @@ namespace Se130RPGGame.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+
+        [HttpGet("HighScore")]
+        public async Task<IActionResult> GetHighScore()
+        {
+            var result = await _fightService.GetHighScore();
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
     }
 }

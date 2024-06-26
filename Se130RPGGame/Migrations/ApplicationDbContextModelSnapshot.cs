@@ -60,7 +60,7 @@ namespace Se130RPGGame.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Class")
+                    b.Property<int>("AuthResultDTO")
                         .HasColumnType("int");
 
                     b.Property<int>("Defeats")
