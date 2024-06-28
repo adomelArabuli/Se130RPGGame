@@ -77,11 +77,11 @@ namespace Se130RPGGame.Services
             return response;
         }
 
-        public async Task<ServiceResponse<AuthResultDTO>> RefreshAccessToken(bool staySignedIn)
+        public async Task<ServiceResponse<AuthResultDTO>> RefreshAccessToken(string refreshToken)
         {
-            var userId = _helperService.GetUserId();
+            var userId = GetUserId(refreshToken);
 
-            var user = await _db.users.FirstOrDefaultAsync(x => x.Id == userId);
+            var user = await _db.users.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user is null)
                 return new ServiceResponse<AuthResultDTO> { Success = false, Message = "User not found" };
@@ -89,17 +89,16 @@ namespace Se130RPGGame.Services
             if (!user.RefreshToken.Equals(user.RefreshToken))
                 return new ServiceResponse<AuthResultDTO> { Success = false, Message = "RefreshToken is not correct" };
 
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(_configuration.GetSection("Token:Secret").Value));
 
-            if (IsRefreshTokenExpired(user.RefreshToken, key.ToString()))
+            if (IsRefreshTokenExpired(user.RefreshToken))
                 return new ServiceResponse<AuthResultDTO> { Success = false, Message = "RefreshToken is not correct" };
 
-            var authResultDTO = await GenerateTokens(user, staySignedIn);
+            var authResultDTO = await GenerateTokens(user);
 
             return new ServiceResponse<AuthResultDTO> { Data = authResultDTO };
         }
 
+        #region LocalFunctions
         private async Task<bool> UserExists(string userName)
         {
             if (await _db.users.AnyAsync(x => x.UserName.ToLower() == userName.ToLower()))
@@ -201,7 +200,7 @@ namespace Se130RPGGame.Services
             return token;
         }
 
-        private static bool IsRefreshTokenExpired(string refreshToken, string secretKey)
+        private bool IsRefreshTokenExpired(string refreshToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             try
@@ -212,7 +211,8 @@ namespace Se130RPGGame.Services
                     ValidateAudience = false,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(secretKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(_configuration.GetSection("Token:Secret").Value))
                 };
 
                 SecurityToken validatedToken;
@@ -235,19 +235,24 @@ namespace Se130RPGGame.Services
             }
         }
 
-        private async Task<AuthResultDTO> GenerateTokens(User user, bool staySignedIn)
+        private async Task<AuthResultDTO> GenerateTokens(User user)
         {
-            string refreshToken = string.Empty;
-
-            if (staySignedIn)
-            {
-                refreshToken = await GenerateRefreshToken(user);
-            }
+            var refreshToken = await GenerateRefreshToken(user);
 
             var accessToken = await GenerateAccessToken(user);
 
             return new AuthResultDTO { AccessToken = accessToken, RefreshToken = refreshToken, Confirmed = true };
         }
 
+        private int GetUserId(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+            int.TryParse(jsonToken.Claims.First(c => c.Type == "nameid").Value, out var userId);
+
+            return userId;
+        }
+        #endregion
     }
 }

@@ -8,6 +8,6 @@ namespace Se130RPGGame.Interfaces
 	{
 		Task<ServiceResponse<int>> Register(UserRegisterDTO model);
 		Task<ServiceResponse<string>> Login(UserLoginDTO model);
-		Task<ServiceResponse<AuthResultDTO>> RefreshAccessToken(bool staySignedIn);
+		Task<ServiceResponse<AuthResultDTO>> RefreshAccessToken(string refreshToken);
 	}
 }

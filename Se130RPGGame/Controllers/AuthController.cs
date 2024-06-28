@@ -40,9 +40,9 @@ namespace Se130RPGGame.Controllers
 		}
 
         [HttpPost("RefreshAccessToken")]
-        public async Task<ActionResult<ServiceResponse<AuthResultDTO>>> RefreshAccessToken(bool staySignedIn)
+        public async Task<ActionResult<ServiceResponse<AuthResultDTO>>> RefreshAccessToken(string refreshToken)
         {
-            var result = await _authService.RefreshAccessToken(staySignedIn);
+            var result = await _authService.RefreshAccessToken(refreshToken);
             if (!result.Success)
             {
                 return BadRequest(result);
