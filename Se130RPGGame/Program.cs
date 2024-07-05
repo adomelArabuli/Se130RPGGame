@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Se130RPGGame.Data;
 using Se130RPGGame.Data.Models.DTO.Character;
 using Se130RPGGame.Interfaces;
+using Se130RPGGame.Middlewares;
 using Se130RPGGame.Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -67,6 +68,7 @@ namespace Se130RPGGame
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
+			// Cors policy // Localhost://test:5000
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
@@ -79,6 +81,7 @@ namespace Se130RPGGame
 
 			app.UseAuthorization();
 
+			app.UseMiddleware<RequestLoggingMiddleware>();
 
 			app.MapControllers();
 
