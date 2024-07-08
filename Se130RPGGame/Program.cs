@@ -83,6 +83,8 @@ namespace Se130RPGGame
 
 			app.UseMiddleware<RequestLoggingMiddleware>();
 
+			app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 			app.MapControllers();
 
 			app.Run();
