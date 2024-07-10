@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Se130RPGGame.Data;
-using Se130RPGGame.Data.Models.DTO.Character;
-using Se130RPGGame.Interfaces;
-
-namespace Se130RPGGame.Controllers
+﻿namespace Se130RPGGame.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	[Authorize]
 	public class CharacterController : ControllerBase
